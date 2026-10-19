@@ -1,0 +1,33 @@
+{
+  "name": "Media Monitoring & Reputation BI",
+  "short_name": "MediaMonitor",
+  "description": "Plataforma SaaS de Business Intelligence, Media Monitoring y Análisis de Reputación Corporativa",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#0ea5e9",
+  "icons": [
+    {
+      "src": "/argos_logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/membrete.png",
+      "sizes": "596x372",
+      "type": "image/png"
+    },
+    {
+      "src": "/membrete.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/membrete.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

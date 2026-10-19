@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comparativo de actores · Arg.Os</title>
+    <meta name="robots" content="noindex" />
+    <meta name="description" content="Comparativo de cobertura mediática entre actores. Arg.Os: soluciones para Gobierno y Empresa." />
+    <meta property="og:title" content="Comparativo de cobertura mediática · Arg.Os" />
+    <meta property="og:description" content="Soluciones para Gobierno / Empresa" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/og-image.png" />
+    <link rel="icon" type="image/svg+xml" href="/argos_logo.svg" />
+    <link rel="apple-touch-icon" href="/membrete.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        try {
+          var dark = localStorage.getItem('cmp_theme') === 'dark';
+          var root = document.documentElement;
+          root.classList.toggle('dark', dark);
+          root.style.colorScheme = dark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/comparativo/main.tsx"></script>
+  </body>
+</html>
