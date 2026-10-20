@@ -734,7 +734,7 @@ const DashboardContent: React.FC = () => {
         />
 
         {/* Main Content Area */}
-        <main key={incluirFacebook ? 'con-facebook' : 'sin-facebook'} className="flex-1 min-w-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
+        <main key={incluirFacebook ? 'con-facebook' : 'sin-facebook'} className="flex-1 min-w-0 w-full px-4 sm:px-6 py-6 space-y-6">
         {/* Aviso de carga: primero spinner, luego confirmación */}
         {(isBooting || isSyncing) && !syncNotice ? (
           <StatusToast kind="loading" title={isSyncing && !isBooting ? 'Actualizando datos…' : 'Cargando datos…'} />
@@ -858,7 +858,7 @@ const DashboardContent: React.FC = () => {
 
       {/* Footer */}
       <footer className="mt-auto border-t border-slate-200/80 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/50 py-6 text-xs text-slate-500 dark:text-slate-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="w-full px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img
               src="/membrete.png"
