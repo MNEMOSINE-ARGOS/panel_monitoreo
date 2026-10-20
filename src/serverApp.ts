@@ -499,8 +499,9 @@ app.get('/api/postgres/perspectives', async (req, res) => {
     const estados = parseArrayParam(req.query.estados as string | string[] | undefined);
     const municipios = parseArrayParam(req.query.municipios as string | string[] | undefined);
     const categorias = parseArrayParam(req.query.categorias as string | string[] | undefined);
+    const calificaciones = parseArrayParam(req.query.calificaciones as string | string[] | undefined);
 
-    const perspectives = await getPerspectiveSummaries(startDate, endDate, forceRefresh, estados, municipios, categorias);
+    const perspectives = await getPerspectiveSummaries(startDate, endDate, forceRefresh, estados, municipios, categorias, calificaciones);
     res.json({
       success: true,
       engine: 'PostgreSQL 16+ (monitoreo)',
@@ -509,6 +510,7 @@ app.get('/api/postgres/perspectives', async (req, res) => {
       estados,
       municipios,
       categorias,
+      calificaciones,
       ...perspectives
     });
   } catch (error: any) {
@@ -527,11 +529,12 @@ app.get('/api/postgres/perspectives/deepdive', async (req, res) => {
     const estados = parseArrayParam(req.query.estados as string | string[] | undefined);
     const municipios = parseArrayParam(req.query.municipios as string | string[] | undefined);
     const categorias = parseArrayParam(req.query.categorias as string | string[] | undefined);
+    const calificaciones = parseArrayParam(req.query.calificaciones as string | string[] | undefined);
 
     if (!type || !name) {
       return res.status(400).json({ error: 'Parámetros "type" y "name" requeridos' });
     }
-    const deepDive = await getEntityDeepDive(type, name, startDate, endDate, estados, municipios, categorias);
+    const deepDive = await getEntityDeepDive(type, name, startDate, endDate, estados, municipios, categorias, calificaciones);
     res.json({
       success: true,
       engine: 'PostgreSQL 16+',

@@ -558,7 +558,8 @@ class AppDataRepository implements IMediaRepository, IAuthRepository {
     endDate?: string,
     estados?: string[],
     municipios?: string[],
-    categorias?: string[]
+    categorias?: string[],
+    calificaciones?: string[]
   ): Promise<any> {
     try {
       const params = new URLSearchParams({ refresh: String(force) });
@@ -567,6 +568,7 @@ class AppDataRepository implements IMediaRepository, IAuthRepository {
       if (estados && estados.length > 0) params.append('estados', estados.join(','));
       if (municipios && municipios.length > 0) params.append('municipios', municipios.join(','));
       if (categorias && categorias.length > 0) params.append('categorias', categorias.join(','));
+      if (calificaciones && calificaciones.length > 0) params.append('calificaciones', calificaciones.join(','));
       const resp = await apiFetch(`/api/postgres/perspectives?${params.toString()}`);
       if (resp.ok) {
         return await resp.json();
@@ -584,7 +586,8 @@ class AppDataRepository implements IMediaRepository, IAuthRepository {
     endDate?: string,
     estados?: string[],
     municipios?: string[],
-    categorias?: string[]
+    categorias?: string[],
+    calificaciones?: string[]
   ): Promise<any> {
     try {
       const params = new URLSearchParams({ type, name });
@@ -593,6 +596,7 @@ class AppDataRepository implements IMediaRepository, IAuthRepository {
       if (estados && estados.length > 0) params.append('estados', estados.join(','));
       if (municipios && municipios.length > 0) params.append('municipios', municipios.join(','));
       if (categorias && categorias.length > 0) params.append('categorias', categorias.join(','));
+      if (calificaciones && calificaciones.length > 0) params.append('calificaciones', calificaciones.join(','));
       const resp = await apiFetch(`/api/postgres/perspectives/deepdive?${params.toString()}`);
       if (resp.ok) {
         const json = await resp.json();

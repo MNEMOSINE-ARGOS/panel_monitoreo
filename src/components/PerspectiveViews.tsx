@@ -131,6 +131,15 @@ export const PerspectiveViews: React.FC<PerspectiveViewsProps> = ({
     }
   };
 
+  const toggleCalificacion = (calif: Calificacion) => {
+    onFilterChange?.((prev) => ({
+      ...prev,
+      calificaciones: prev.calificaciones.includes(calif)
+        ? prev.calificaciones.filter((c) => c !== calif)
+        : [...prev.calificaciones, calif]
+    }));
+  };
+
   // Preset handler for date periods
   const handleDatePreset = (preset: 'all' | 'today' | '7d' | '30d' | '60d' | '90d' | 'custom') => {
     if (preset === 'custom') {
@@ -160,7 +169,8 @@ export const PerspectiveViews: React.FC<PerspectiveViewsProps> = ({
           endParam,
           filters?.estados,
           filters?.municipios,
-          filters?.categorias
+          filters?.categorias,
+          filters?.calificaciones
         );
         if (res && isMounted) {
           setData({
@@ -198,7 +208,8 @@ export const PerspectiveViews: React.FC<PerspectiveViewsProps> = ({
     dateRange.end,
     filters?.estados,
     filters?.municipios,
-    filters?.categorias
+    filters?.categorias,
+    filters?.calificaciones
   ]);
 
   // Synchronize initialMode prop with activeMode state
@@ -242,7 +253,8 @@ export const PerspectiveViews: React.FC<PerspectiveViewsProps> = ({
           endParam,
           filters?.estados,
           filters?.municipios,
-          filters?.categorias
+          filters?.categorias,
+          filters?.calificaciones
         );
         if (detail && isMounted) {
           setDeepDive(detail);
@@ -266,7 +278,8 @@ export const PerspectiveViews: React.FC<PerspectiveViewsProps> = ({
     dateRange.end,
     filters?.estados,
     filters?.municipios,
-    filters?.categorias
+    filters?.categorias,
+    filters?.calificaciones
   ]);
 
   // Current entity list filtered by search
@@ -468,6 +481,60 @@ export const PerspectiveViews: React.FC<PerspectiveViewsProps> = ({
               availableCategorias={availableCategorias}
               layout="horizontal"
             />
+          </div>
+        )}
+
+        {/* Row 3: Tono (Positivas, Neutrales, Negativas) */}
+        {filters && onFilterChange && (
+          <div className="pt-3 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Tono:</span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                (Muestra solo las notas con el tono elegido)
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1 p-0.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={() => toggleCalificacion('Positiva')}
+                aria-pressed={filters.calificaciones.includes('Positiva')}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                  filters.calificaciones.includes('Positiva')
+                    ? 'bg-argos-teal text-slate-950 shadow-xs font-semibold'
+                    : 'text-teal-ink dark:text-teal-glow hover:bg-argos-teal/15'
+                }`}
+              >
+                <Smile className="w-3.5 h-3.5" />
+                <span>Positivas</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => toggleCalificacion('Neutral')}
+                aria-pressed={filters.calificaciones.includes('Neutral')}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                  filters.calificaciones.includes('Neutral')
+                    ? 'bg-slate-600 text-white shadow-xs font-semibold'
+                    : 'text-slate-700 dark:text-slate-300 hover:bg-slate-300/40 dark:hover:bg-slate-700/60'
+                }`}
+              >
+                <Meh className="w-3.5 h-3.5" />
+                <span>Neutrales</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => toggleCalificacion('Negativa')}
+                aria-pressed={filters.calificaciones.includes('Negativa')}
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                  filters.calificaciones.includes('Negativa')
+                    ? 'bg-argos-pink text-white shadow-xs font-semibold'
+                    : 'text-argos-pink hover:bg-argos-pink/10'
+                }`}
+              >
+                <Frown className="w-3.5 h-3.5" />
+                <span>Negativas</span>
+              </button>
+            </div>
           </div>
         )}
       </div>

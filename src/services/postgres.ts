@@ -1031,6 +1031,22 @@ export interface PerspectiveSummaries {
 const perspectivesCache = new Map<string, { data: PerspectiveSummaries; time: number }>();
 
 /**
+ * Tone (Calificacion) clause for the perspective views. Uses the same LIKE semantics as the
+ * pos/neu/neg counts so a filtered entity's breakdown matches the selected tones.
+ */
+function buildToneClause(calificaciones?: string[]): string | null {
+  if (!calificaciones || calificaciones.length === 0) return null;
+  const tones = new Set(calificaciones.map((c) => String(c).trim().toUpperCase()));
+  const parts: string[] = [];
+  if (tones.has('POSITIVA')) parts.push(`UPPER("Calificacion") LIKE '%POSITIV%'`);
+  if (tones.has('NEGATIVA')) parts.push(`UPPER("Calificacion") LIKE '%NEGATIV%'`);
+  if (tones.has('NEUTRAL')) {
+    parts.push(`(COALESCE(UPPER("Calificacion"), '') NOT LIKE '%POSITIV%' AND COALESCE(UPPER("Calificacion"), '') NOT LIKE '%NEGATIV%')`);
+  }
+  return parts.length > 0 ? `(${parts.join(' OR ')})` : null;
+}
+
+/**
  * Returns grouped analytics for the 3 main reading perspectives in media monitoring:
  * 1. Por Actores (Liderazgo, funcionarios, candidatos)
  * 2. Por Medios (Línea editorial, cobertura, volumen)
@@ -1042,10 +1058,12 @@ export async function getPerspectiveSummaries(
   forceRefresh = false,
   estados?: string[],
   municipios?: string[],
-  categorias?: string[]
+  categorias?: string[],
+  calificaciones?: string[]
 ): Promise<PerspectiveSummaries> {
   const hasExtraFilters = Boolean(
     startDate ||
+    (calificaciones && calificaciones.length > 0) ||
     endDate ||
     (estados && estados.length > 0) ||
     (municipios && municipios.length > 0) ||
@@ -1096,6 +1114,8 @@ export async function getPerspectiveSummaries(
     queryParams.push(uppercaseCats);
     pIdx++;
   }
+  const toneClause = buildToneClause(calificaciones);
+  if (toneClause) clauses.push(toneClause);
 
   const extraSql = clauses.length > 0 ? ` AND ${clauses.join(' AND ')}` : '';
 
@@ -1184,7 +1204,8 @@ export async function getEntityDeepDive(
   endDate?: string,
   estados?: string[],
   municipios?: string[],
-  categorias?: string[]
+  categorias?: string[],
+  calificaciones?: string[]
 ) {
   const colName = type === 'actor' ? '"Actor"' : type === 'medio' ? '"Medio"' : '"Tema"';
   
@@ -1226,6 +1247,8 @@ export async function getEntityDeepDive(
     baseParams.push(uppercaseCats);
     pIdx++;
   }
+  const toneClause = buildToneClause(calificaciones);
+  if (toneClause) clauses.push(toneClause);
   const scopedFilterSql = clauses.length > 0 ? ` AND ${clauses.join(' AND ')}` : '';
 
   // 1. Parallel execution for high-speed political & governmental deep dive
