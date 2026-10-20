@@ -79,7 +79,7 @@ export const LoginPage: React.FC = () => {
               Control de Acceso Cerrado
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-md mx-auto">
-              Autenticación centralizada y exclusiva para usuarios autorizados
+              Autenticación centralizada y exclusiva solo usuarios autorizados
             </p>
           </div>
 
